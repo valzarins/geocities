@@ -55,6 +55,8 @@
 
     eaten++;
     if (tally) tally.textContent = eaten;
+    if (eaten === 2 && window.BogWitch) setTimeout(BogWitch.show, 700);
+    else if (window.BogSounds) BogSounds.eat();
 
     // a fresh fly hatches where the mouse is
     setTimeout(function () {
@@ -80,7 +82,7 @@
   document.addEventListener('mousemove', function (e) {
     var dx = e.clientX - last.x, dy = e.clientY - last.y;
     last = { x: e.clientX, y: e.clientY };
-    if (gone) return;
+    if (gone || document.documentElement.classList.contains('scared')) return;
     if (dx * dx + dy * dy > 4) {
       var want = Math.atan2(dy, dx) * 180 / Math.PI + 90;
       var turn = ((want - heading + 540) % 360) - 180;

@@ -16,6 +16,22 @@ html.flymode, html.flymode * { cursor: none !important; }
          font: bold 22px "Comic Sans MS", "Arial Black", sans-serif; color: #ff0000;
          text-shadow: 2px 2px 0 #ffff00; animation: chomp 1.2s ease-out forwards; }
 @keyframes chomp { from { opacity: 1; margin-top: 0; } to { opacity: 0; margin-top: -50px; } }
+#sound { color: #ffff00; background: #000000; padding: 2px 6px; text-decoration: none; }
+#scare { display: none; position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 10000;
+         background: radial-gradient(circle, #3a1450 0%, #0d0414 55%, #000 100%);
+         flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+html.flymode #scare, html.flymode #scare * { cursor: pointer !important; }
+html.scared #fly { display: none; }
+#scare.go { display: flex; animation: flash .6s ease-out; }
+#scare img { height: 72vh; max-width: 92vw; animation: lunge .45s cubic-bezier(.2,1.5,.5,1) both, shake .07s .45s 14 alternate; }
+#scare .boo { font: bold 44px "Comic Sans MS", "Arial Black", sans-serif; color: #33ff33; text-align: center;
+              text-shadow: 3px 3px 0 #c0161b, 0 0 18px #33ff33; animation: lunge .5s .25s cubic-bezier(.2,1.5,.5,1) both; }
+#scare .boo small { font-size: 22px; color: #ff4fa3; text-shadow: 2px 2px 0 #000; }
+#scare .out { font: 14px "Times New Roman", serif; color: #aaaaaa; margin-top: 8px; }
+@keyframes flash { from { background: #ffffff; } 20% { background: #c0161b; } }
+@keyframes lunge { from { transform: scale(.05) rotate(-25deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+@keyframes shake { from { translate: -6px 3px; } to { translate: 6px -3px; } }
+@media (prefers-reduced-motion: reduce) { #scare img, #scare .boo { animation: none; } #scare.go { animation: none; } }
 </style>
 </head>
 <body background="images/bricks.svg" bgcolor=#ffffff text=#000fff link=#ff0000 vlink=#ff0000
@@ -93,7 +109,8 @@ html.flymode, html.flymode * { cursor: none !important; }
 </center><br>
 <center> <font size=3> <b>
 <h1><font color=#ff0000>Wipe Your Feet and Mind the Flytraps!</font></h1> Hungry plant fan number <img src="images/counter.svg" width=96 height=22 align=absmiddle alt="002613"> has just squished in through the bog door.<br>
-<font size=2>You are the fly now! Buzz too close to my flytraps and see what happens... Flies eaten so far: <font color=#ff0000 id="eaten">0</font></font>
+<font size=2>You are the fly now! Buzz too close to my flytraps and see what happens... Flies eaten so far: <font color=#ff0000 id="eaten">0</font><br>
+<a href="#" id="sound">&#9835; Click here for SPOOKY BOG SOUNDS! &#9835;</a> <font color=#ff0000>(if you dare...)</font></font>
 </center></font></b><br>
 
 <a href="#carnivorous"><img src="images/btn-carnivorous.svg" width=137 height=68 border=0 align=absmiddle alt="Carnivorous"></a>
@@ -148,6 +165,8 @@ A sanctuary is supposed to be safe for everybody... except the flies. Sorry, fli
 </center>
 <font size=2>&copy; by The Bogkeeper - Carnivorous Sanctuary, RainForest neighborhood <font color=#ff0000>updated October 1997
 </font></font>
+<script src="sound.js"></script>
+<script src="scare.js"></script>
 <script src="fly.js"></script>
 </body>
 </html>
