@@ -164,6 +164,40 @@ var BogSounds = (function () {
     o.start(t); o.stop(t + dur);
   }
 
+  // a record slowing to a stop
+  function winddown(t) {
+    var o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(164.81, t);
+    o.frequency.exponentialRampToValueAtTime(30, t + 0.6);
+    f.type = 'lowpass'; f.frequency.value = 900;
+    g.gain.setValueAtTime(0.3, t);
+    g.gain.linearRampToValueAtTime(0, t + 0.6);
+    o.connect(f).connect(g).connect(out);
+    o.start(t); o.stop(t + 0.62);
+  }
+  // two low notes rubbing against each other, slowly swelling
+  function drone(t, dur) {
+    var g = ctx.createGain(), f = ctx.createBiquadFilter();
+    f.type = 'lowpass'; f.frequency.value = 400;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.35, t + dur * 0.9);
+    g.gain.linearRampToValueAtTime(0, t + dur);
+    f.connect(g);
+    send(g);
+    [41.2, 43.65, 82.4].forEach(function (fr) {
+      var o = ctx.createOscillator();
+      o.type = 'sawtooth'; o.frequency.value = fr;
+      o.connect(f);
+      o.start(t); o.stop(t + dur);
+    });
+  }
+  // one slow, wet, crunchy bite of plant
+  function bigBite(t) {
+    hiss(t, 0.06, 1200, 'lowpass', 0.8, true);
+    for (var k = 0; k < 6; k++) hiss(t + 0.02 + k * 0.045 + Math.random() * 0.02, 0.04, 2600 - k * 250, 'bandpass', 0.45, false);
+  }
+
   function ready() { return ctx && ctx.state === 'running'; }
 
   if (button) button.onclick = function (e) { e.preventDefault(); wake(); };
@@ -179,24 +213,33 @@ var BogSounds = (function () {
     },
     // the witch shows up: CRASH and a long evil laugh
     // the dance party: a funky drum machine, slap bass, and crunchy plant munching
+    // the dance party: two bars of funk, then the lights go out and it gets SLOW and creepy
     groove: function () {
       if (!ready()) return;
-      var t0 = ctx.currentTime + 0.05, beat = 60 / 118, s16 = beat / 4;
+      var t0 = ctx.currentTime + 0.05, s16 = 0.125;   // 120 beats a minute, so 2 bars = 4 seconds
       // an original bassline, one note per 16th (0 = rest)
       var E = 82.41, G = 98, A = 110, B = 123.47, D = 146.83, E3 = 164.81;
       var bass = [E, 0, E, 0, 0, E3, 0, D, 0, B, 0, 0, A, 0, G, A];
       var stab = [329.63, 392, 493.88];
-      for (var bar = 0; bar < 6; bar++) {
+      for (var bar = 0; bar < 2; bar++) {
         for (var i = 0; i < 16; i++) {
           var t = t0 + (bar * 16 + i) * s16;
           if (i % 4 === 0) kick(t);
           if (i === 4 || i === 12) snare(t);
           hat(t, i % 2 ? 0.05 : 0.1);
           if (bass[i]) pluck(bass[i], t, s16 * 0.9);
-          if (bar % 2 === 1 && (i === 6 || i === 14)) stab.forEach(function (f) { organ(f, t, 0.12, 0.05); });
+          if (i === 6 || i === 14) stab.forEach(function (f) { organ(f, t, 0.12, 0.05); });
           if (i === 10) crunch(t);
         }
       }
+      // lights out: the record winds down, then a low drone, and five slow, heavy bites
+      var dark = t0 + 4;
+      winddown(dark - 0.5);
+      drone(dark, 6.6);
+      for (var k = 0; k < 5; k++) bigBite(dark + 0.6 + k * 1.3);
+      // the lunge
+      stinger(dark + 6.5);
+      bigBite(dark + 6.5);
     },
     scare: function () {
       if (!ready()) return;

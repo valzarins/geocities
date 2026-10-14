@@ -49,12 +49,29 @@ html.flymode #dance, html.flymode #dance * { cursor: pointer !important; }
 #dance .ball { position: absolute; top: -30px; left: 50%; width: 90px; height: 90px; margin-left: -45px; border-radius: 50%; z-index: 1;
                background: repeating-conic-gradient(#ffffff 0 10deg, #9aa4b8 0 20deg), #ccc;
                box-shadow: 0 0 40px 10px rgba(255,255,255,.6); animation: spin 2s linear infinite; }
+#dance > * { transition: opacity .6s; }
+#dance .face, #dance .creepy { position: absolute; z-index: 3; opacity: 0; pointer-events: none; }
+#dance .face { width: 70vmin; height: 70vmin; left: 50%; top: 50%; margin: -35vmin 0 0 -35vmin; }
+#dance .creepy { left: 0; right: 0; bottom: 4%; text-align: center; font: bold 26px "Comic Sans MS", "Arial Black", sans-serif;
+                 color: #ff3a3a; text-shadow: 2px 2px 0 #000; }
+#dance.creep { background: radial-gradient(circle, #1a0a14 0%, #000 70%); transition: background 1s; }
+#dance.creep img:not(.face), #dance.creep .boo, #dance.creep .out, #dance.creep .floor, #dance.creep .ball { opacity: 0; }
+#dance.creep .face { opacity: 1; animation: approach 6.5s cubic-bezier(.5,0,.9,.6) both, lurch 1.3s ease-in-out infinite; }
+#dance.creep .creepy { opacity: 1; animation: flicker 1.3s steps(2) infinite; }
+#dance.lunge .face { animation: lunge-in .35s cubic-bezier(.2,1.4,.5,1) both, shake .06s .35s infinite alternate; }
+#dance.lunge .creepy { font-size: 46px; animation: none; }
+#dance.lunge { animation: redflash .4s ease-out; }
+@keyframes approach { from { transform: scale(.3); } to { transform: scale(1.7); } }
+@keyframes lurch { 0%, 100% { rotate: -2deg; } 50% { rotate: 2deg; } }
+@keyframes lunge-in { from { transform: scale(1.7); } to { transform: scale(3.4); } }
+@keyframes flicker { 50% { opacity: .35; } }
+@keyframes redflash { from { background: #c0161b; } }
 @keyframes popin { from { transform: scale(.05); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 @keyframes moonwalk { from { translate: 30vw 0; } to { translate: -30vw 0; } }
 @keyframes wiggle { from { rotate: -3deg; } to { rotate: 3deg; } }
 @keyframes disco { 50% { filter: hue-rotate(180deg); } }
 @keyframes spin { to { rotate: 360deg; } }
-@media (prefers-reduced-motion: reduce) { #dance img, #dance .boo, #dance .floor, #dance .ball, #dance.go { animation: none; } }
+@media (prefers-reduced-motion: reduce) { #dance img, #dance .boo, #dance .floor, #dance .ball, #dance.go, #dance.lunge, #dance .face, #dance .creepy { animation: none !important; } #dance.creep .face { transform: scale(1.2); } }
 @media (prefers-reduced-motion: reduce) { #scare img, #scare .boo { animation: none; } #scare.go { animation: none; } }
 </style>
 </head>
