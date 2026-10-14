@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160">
+  <defs>
+    <filter id="grit" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.56  0 0 0 0 0.55  0 0 0 -2.2 1.25"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+  <rect width="240" height="160" fill="#cfd1cf"/>
+  <g fill="#fbfbfa">
+    <rect x="3" y="3" width="114" height="34" rx="5"/>
+    <rect x="123" y="3" width="114" height="34" rx="5"/>
+    <rect x="-57" y="43" width="114" height="34" rx="5"/>
+    <rect x="63" y="43" width="114" height="34" rx="5"/>
+    <rect x="183" y="43" width="114" height="34" rx="5"/>
+    <rect x="3" y="83" width="114" height="34" rx="5"/>
+    <rect x="123" y="83" width="114" height="34" rx="5"/>
+    <rect x="-57" y="123" width="114" height="34" rx="5"/>
+    <rect x="63" y="123" width="114" height="34" rx="5"/>
+    <rect x="183" y="123" width="114" height="34" rx="5"/>
+  </g>
+  <rect width="240" height="160" fill="#ffffff" filter="url(#grit)" opacity="0.9"/>
+</svg>

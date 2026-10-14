@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <style>
+    .wing { transform-box: fill-box; animation: buzz 0.06s linear infinite alternate; }
+    .l { transform-origin: 100% 100%; } .r { transform-origin: 0% 100%; }
+    @keyframes buzz { from { transform: rotate(0deg); } to { transform: rotate(18deg) scaleY(0.75); } }
+    .r { animation-direction: alternate-reverse; }
+  </style>
+  <g stroke="#111" stroke-width="1" stroke-linecap="round">
+    <path d="M13 17 l-6 -2 M13 20 l-6 2 M13 23 l-5 5 M19 17 l6 -2 M19 20 l6 2 M19 23 l5 5" fill="none"/>
+  </g>
+  <g transform="rotate(-25 10 15)"><ellipse class="wing l" cx="10" cy="15" rx="6" ry="9" fill="#d8ecff" fill-opacity="0.75" stroke="#7a8ea6" stroke-width="0.7"/></g>
+  <g transform="rotate(25 22 15)"><ellipse class="wing r" cx="22" cy="15" rx="6" ry="9" fill="#d8ecff" fill-opacity="0.75" stroke="#7a8ea6" stroke-width="0.7"/></g>
+  <ellipse cx="16" cy="20" rx="4.5" ry="7" fill="#1d2a1d" stroke="#000" stroke-width="0.8"/>
+  <path d="M12.5 19 h7 M12.3 22 h7.4 M13 25 h6" stroke="#4d6b3a" stroke-width="1"/>
+  <circle cx="16" cy="11" r="4" fill="#222"/>
+  <circle cx="13.6" cy="10" r="2.2" fill="#c0161b"/>
+  <circle cx="18.4" cy="10" r="2.2" fill="#c0161b"/>
+  <circle cx="13.1" cy="9.4" r="0.6" fill="#fff"/><circle cx="17.9" cy="9.4" r="0.6" fill="#fff"/>
+</svg>

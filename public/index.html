@@ -1,0 +1,153 @@
+<html>
+<head>
+<title> The Carnivorous Sanctuary </title>
+<style>
+html.flymode, html.flymode * { cursor: none !important; }
+#fly { position: fixed; left: 0; top: 0; width: 32px; height: 32px; margin: -16px 0 0 -16px;
+       pointer-events: none; z-index: 9999; opacity: 0; }
+#fly.caught { transition: transform .15s ease-in, opacity .2s .1s; opacity: 0 !important; }
+#fly.hatch { animation: hatch .4s ease-out; }
+@keyframes hatch { from { width: 4px; height: 4px; margin: -2px 0 0 -2px; } }
+#logo .jaw { transition: transform 1.2s ease-out; }
+#logo .trap.shut .jaw { transition: transform .12s cubic-bezier(.6,0,1,.6); }
+#logo .trap.shut { animation: chew .25s .3s 6 alternate ease-in-out; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes chew { to { transform: rotate(4deg); } }
+.chomp { position: absolute; pointer-events: none; z-index: 9998; transform: translate(-50%, -100%);
+         font: bold 22px "Comic Sans MS", "Arial Black", sans-serif; color: #ff0000;
+         text-shadow: 2px 2px 0 #ffff00; animation: chomp 1.2s ease-out forwards; }
+@keyframes chomp { from { opacity: 1; margin-top: 0; } to { opacity: 0; margin-top: -50px; } }
+</style>
+</head>
+<body background="images/bricks.svg" bgcolor=#ffffff text=#000fff link=#ff0000 vlink=#ff0000
+ alink=#70db93>
+<center>
+<center><svg id="logo" xmlns="http://www.w3.org/2000/svg" width="484" height="384" role="img" aria-label="The Carnivorous Sanctuary - Bog and Greenhouse" viewBox="0 0 484 384">
+  <defs>
+    <radialGradient id="bog" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#3f6b2a"/>
+      <stop offset="0.6" stop-color="#1d3a14"/>
+      <stop offset="1" stop-color="#050d04"/>
+    </radialGradient>
+    <linearGradient id="pitcher" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5d8a1f"/>
+      <stop offset="0.5" stop-color="#a8c43a"/>
+      <stop offset="1" stop-color="#6d1e1e"/>
+    </linearGradient>
+    <linearGradient id="trap" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c0161b"/>
+      <stop offset="1" stop-color="#7fb03a"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="242" cy="180" rx="230" ry="170" fill="url(#bog)"/>
+  <!-- pitcher plants, right -->
+  <g stroke="#2a3d10" stroke-width="2">
+    <path d="M330 330 C318 250 312 170 330 95 C336 70 372 66 380 92 C392 170 372 260 352 330 Z" fill="url(#pitcher)"/>
+    <path d="M326 98 C340 58 392 56 392 84 C380 76 352 76 334 98 Z" fill="#8b1a1a"/>
+    <path d="M385 330 C380 270 384 200 400 150 C406 132 432 132 436 152 C440 210 420 280 404 330 Z" fill="url(#pitcher)"/>
+    <path d="M398 152 C408 124 442 124 444 144 C434 138 414 138 402 152 Z" fill="#8b1a1a"/>
+  </g>
+  <g stroke="#6d1e1e" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M336 120 C344 160 344 220 340 290"/><path d="M352 112 C362 170 360 230 350 300"/>
+    <path d="M366 110 C372 160 368 220 360 290"/><path d="M408 170 C412 220 408 270 400 310"/>
+    <path d="M420 166 C424 210 420 260 410 310"/>
+  </g>
+  <!-- flytrap rosette, left -->
+  <g stroke="#1f3a0c" stroke-width="2">
+    <path d="M150 330 C140 280 120 240 96 214" fill="none" stroke="#6f9b2c" stroke-width="7"/>
+    <path d="M160 330 C168 280 196 230 226 200" fill="none" stroke="#6f9b2c" stroke-width="7"/>
+    <path d="M155 330 C150 270 156 210 160 160" fill="none" stroke="#6f9b2c" stroke-width="7"/>
+    <!-- trap 3 snapped shut -->
+    <path d="M160 160 C138 130 140 92 162 76 C184 92 184 130 160 160 Z" fill="#b3191c"/>
+    <path d="M162 76 l-6 -10 M162 76 l6 -10 M150 84 l-10 -4 M174 84 l10 -4" stroke="#e9f2c8" stroke-linecap="round"/>
+  </g>
+  <!-- trap 1: jaws hinge at 98,214 -->
+  <g class="trap" data-mx="107" data-my="165" data-shut="42" stroke="#1f3a0c" stroke-width="2">
+    <g class="jaw" data-dir="1" style="transform-origin:98px 214px">
+      <path d="M98 214 C60 200 40 168 52 140 C74 150 92 178 98 214 Z" fill="url(#trap)"/>
+      <path d="M52 140 l-8 -8 M60 146 l-10 -6 M68 156 l-11 -3 M76 168 l-11 0 M84 182 l-10 3" stroke="#e9f2c8" stroke-linecap="round"/>
+    </g>
+    <g class="jaw" data-dir="-1" style="transform-origin:98px 214px">
+      <path d="M98 214 C110 176 136 156 166 160 C156 188 130 208 98 214 Z" fill="url(#trap)"/>
+      <path d="M166 160 l9 -6 M152 160 l3 -10 M138 164 l-1 -11 M124 170 l-4 -10 M112 180 l-6 -9" stroke="#e9f2c8" stroke-linecap="round"/>
+    </g>
+  </g>
+  <!-- trap 2: jaws hinge at 226,200 -->
+  <g class="trap" data-mx="261" data-my="171" data-shut="35" stroke="#1f3a0c" stroke-width="2">
+    <g class="jaw" data-dir="1" style="transform-origin:226px 200px">
+      <path d="M226 200 C214 166 222 132 248 120 C254 146 244 178 226 200 Z" fill="url(#trap)"/>
+      <path d="M248 120 l2 -11 M252 134 l10 -5 M250 150 l11 -1 M244 166 l10 3" stroke="#e9f2c8" stroke-linecap="round"/>
+    </g>
+    <g class="jaw" data-dir="-1" style="transform-origin:226px 200px">
+      <path d="M226 200 C252 178 282 176 302 194 C280 210 252 212 226 200 Z" fill="url(#trap)"/>
+      <path d="M302 194 l10 -2 M290 202 l8 7 M274 207 l4 10 M258 208 l1 11" stroke="#e9f2c8" stroke-linecap="round"/>
+    </g>
+  </g>
+  <!-- lettering -->
+  <g font-family="'Brush Script MT','Lucida Handwriting','Apple Chancery',cursive" font-style="italic">
+    <text x="30" y="72" font-size="74" fill="#0a8a12" stroke="#033d06" stroke-width="1">Carnivorous</text>
+    <text x="22" y="236" font-size="58" fill="#d01a10" stroke="#5a0905" stroke-width="1">&amp;</text>
+    <text x="150" y="300" font-size="80" fill="#1414ff" stroke="#00007a" stroke-width="1">Sanctuary</text>
+  </g>
+  <text x="242" y="356" text-anchor="middle" font-family="'Cooper Black','Arial Black',Impact,serif" font-weight="900" font-size="30" fill="#e0701a" stroke="#6b2b02" stroke-width="1.5" letter-spacing="1">Bog &amp; Greenhouse</text>
+</svg>
+</center><br>
+<center> <font size=3> <b>
+<h1><font color=#ff0000>Wipe Your Feet and Mind the Flytraps!</font></h1> Hungry plant fan number <img src="images/counter.svg" width=96 height=22 align=absmiddle alt="002613"> has just squished in through the bog door.<br>
+<font size=2>You are the fly now! Buzz too close to my flytraps and see what happens... Flies eaten so far: <font color=#ff0000 id="eaten">0</font></font>
+</center></font></b><br>
+
+<a href="#carnivorous"><img src="images/btn-carnivorous.svg" width=137 height=68 border=0 align=absmiddle alt="Carnivorous"></a>
+<font size=4> <b> OR </b></font>
+<a href="#sanctuary"><img src="images/btn-sanctuary.svg" width=137 height=68 border=0 align=absmiddle alt="Sanctuary"></a>
+<br><b>
+PICK YOUR PATH through the
+<a href="#carnivorous"><i>Carnivorous</i></a> patch or the
+<a href="#sanctuary"><i>Sanctuary</i></a> greenhouse!<br><br>
+</b>
+<font size=2><b>You have landed at <font color=#ff0000>www.geocities.com/RainForest/Wetlands/4849/</font><br>
+a proud little swamp in the RainForest neighborhood</b></font>
+<br><br>
+
+<img src="images/bar.svg" width=480 height=18 alt="----------"><br><br>
+
+<a name="carnivorous"></a>
+<h2><font color=#ff0000>~*~ The Carnivorous Patch ~*~</font></h2>
+<table width=480 border=0><tr><td><font size=3><b>
+Most plants are happy with sunshine and water. NOT MINE!!! Mine want MEAT. Well, bugs anyway.
+Out on my back porch I keep a tub of peat and sand where the hungriest green things on Earth live:
+<ul>
+<li><font color=#ff0000>Venus Flytraps</font> - the famous ones. Two little jaws with bristly teeth that SNAP when a fly touches the trigger hairs twice.
+<li><font color=#ff0000>Pitcher Plants</font> - tall slippery tubes. Bugs climb in for the sweet stuff and slide right down into the soup. Yuck and cool at the same time.
+<li><font color=#ff0000>Sundews</font> - sparkly sticky drops on every leaf, like dew that never dries. A gnat lands, gets stuck, and the leaf slowly curls up around it.
+<li><font color=#ff0000>Butterworts</font> - flat greasy leaves that work like flypaper. Not fancy, but they get the job done.
+</ul>
+<font color=#ff0000>Rule #1:</font> Do NOT feed them hamburger! I learned that one the hard way. Rule #2: Only rainwater or distilled water, never tap water. Rule #3: Stop poking the traps to watch them close, Kevin. Every snap costs the plant energy!!
+</b></font></td></tr></table>
+<br>
+
+<img src="images/bar.svg" width=480 height=18 alt="----------"><br><br>
+
+<a name="sanctuary"></a>
+<h2><font color=#ff0000>~*~ The Sanctuary Greenhouse ~*~</font></h2>
+<table width=480 border=0><tr><td><font size=3><b>
+Lots of these plants are getting rare in the wild because people drain the bogs to build malls and parking lots. :-(
+So I made my greenhouse into a <i>sanctuary</i>, a safe place where they can grow and make babies.
+<ul>
+<li>Every plant here was grown from seed or a leaf cutting. <font color=#ff0000>NONE were dug up from the wild!</font> Please never, ever do that.
+<li>My sundews make so many seeds that I trade them by snail mail with other bog growers. Just ask if you want some!
+<li>In winter the flytraps go to sleep in the cold frame. They are NOT dead, they are just resting, so don't panic like I did my first year.
+<li>Lost plants are welcome too. If your pitcher plant looks sad and brown, bring it over and it can get better here.
+</ul>
+A sanctuary is supposed to be safe for everybody... except the flies. Sorry, flies!
+</b></font></td></tr></table>
+<br>
+
+<img src="images/bar.svg" width=480 height=18 alt="----------"><br><br>
+
+<b>Thanx for stopping by the bog!! Come back soon, I add new sprouts every week.</b><br><br>
+</center>
+<font size=2>&copy; by The Bogkeeper - Carnivorous Sanctuary, RainForest neighborhood <font color=#ff0000>updated October 1997
+</font></font>
+<script src="fly.js"></script>
+</body>
+</html>
