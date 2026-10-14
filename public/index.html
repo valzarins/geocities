@@ -31,6 +31,30 @@ html.scared #fly { display: none; }
 @keyframes flash { from { background: #ffffff; } 20% { background: #c0161b; } }
 @keyframes lunge { from { transform: scale(.05) rotate(-25deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
 @keyframes shake { from { translate: -6px 3px; } to { translate: 6px -3px; } }
+#dance { display: none; position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 10000; overflow: hidden;
+         background: radial-gradient(ellipse at 50% 30%, #ff3cac 0%, #784ba0 45%, #1b0a3a 100%);
+         flex-direction: column; align-items: center; justify-content: center; }
+html.flymode #dance, html.flymode #dance * { cursor: pointer !important; }
+#dance.go { display: flex; animation: flash .5s ease-out; }
+#dance img { height: 66vh; max-width: 80vw; position: relative; z-index: 2;
+             animation: popin .4s cubic-bezier(.2,1.6,.5,1) both, moonwalk 7s .4s linear both; }
+#dance .boo { position: relative; z-index: 2; font: bold 38px "Comic Sans MS", "Arial Black", sans-serif; color: #ffff00;
+              text-align: center; text-shadow: 3px 3px 0 #000, 0 0 16px #ff3cac; animation: popin .5s .3s cubic-bezier(.2,1.6,.5,1) both, wiggle .25s .8s infinite alternate; }
+#dance .boo small { font-size: 20px; color: #ffffff; }
+#dance .out { position: relative; z-index: 2; font: 14px "Times New Roman", serif; color: #ffd0f0; margin-top: 8px; }
+#dance .floor { position: absolute; left: -10%; right: -10%; bottom: 0; height: 30%; z-index: 1;
+                background: conic-gradient(#ff0080 25%, #00e5ff 0 50%, #ffff00 0 75%, #7cff00 0) 0 0 / 120px 60px;
+                transform: perspective(300px) rotateX(55deg); transform-origin: bottom;
+                animation: disco .5s steps(1) infinite; opacity: .75; }
+#dance .ball { position: absolute; top: -30px; left: 50%; width: 90px; height: 90px; margin-left: -45px; border-radius: 50%; z-index: 1;
+               background: repeating-conic-gradient(#ffffff 0 10deg, #9aa4b8 0 20deg), #ccc;
+               box-shadow: 0 0 40px 10px rgba(255,255,255,.6); animation: spin 2s linear infinite; }
+@keyframes popin { from { transform: scale(.05); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes moonwalk { from { translate: 30vw 0; } to { translate: -30vw 0; } }
+@keyframes wiggle { from { rotate: -3deg; } to { rotate: 3deg; } }
+@keyframes disco { 50% { filter: hue-rotate(180deg); } }
+@keyframes spin { to { rotate: 360deg; } }
+@media (prefers-reduced-motion: reduce) { #dance img, #dance .boo, #dance .floor, #dance .ball, #dance.go { animation: none; } }
 @media (prefers-reduced-motion: reduce) { #scare img, #scare .boo { animation: none; } #scare.go { animation: none; } }
 </style>
 </head>
@@ -167,6 +191,7 @@ A sanctuary is supposed to be safe for everybody... except the flies. Sorry, fli
 </font></font>
 <script src="sound.js"></script>
 <script src="scare.js"></script>
+<script src="dance.js"></script>
 <script src="fly.js"></script>
 </body>
 </html>

@@ -127,6 +127,43 @@ var BogSounds = (function () {
     whoosh.stop(t + 1);
   }
 
+  // drum machine pieces
+  function kick(t) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(150, t);
+    o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+    g.gain.setValueAtTime(0.9, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+    o.connect(g).connect(out);
+    o.start(t); o.stop(t + 0.26);
+  }
+  function hiss(t, dur, freq, type, vol, wet) {
+    var n = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    n.buffer = noise;
+    f.type = type; f.frequency.value = freq;
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    n.connect(f).connect(g);
+    if (wet) send(g); else g.connect(out);
+    n.start(t, Math.random() * 0.5); n.stop(t + dur);
+  }
+  function snare(t) { hiss(t, 0.18, 1800, 'bandpass', 0.6, true); }
+  function hat(t, vol) { hiss(t, 0.04, 8000, 'highpass', vol, false); }
+  // a plant getting crunched: a few fast, wet, crackly bites
+  function crunch(t) { for (var k = 0; k < 3; k++) hiss(t + k * 0.035, 0.03, 3500 - k * 600, 'bandpass', 0.35, false); }
+  // slap bass: bright saw note that closes down fast
+  function pluck(freq, t, dur) {
+    var o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    o.type = 'sawtooth'; o.frequency.value = freq;
+    f.type = 'lowpass'; f.Q.value = 8;
+    f.frequency.setValueAtTime(2400, t);
+    f.frequency.exponentialRampToValueAtTime(300, t + dur);
+    g.gain.setValueAtTime(0.35, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.connect(f).connect(g).connect(out);
+    o.start(t); o.stop(t + dur);
+  }
+
   function ready() { return ctx && ctx.state === 'running'; }
 
   if (button) button.onclick = function (e) { e.preventDefault(); wake(); };
@@ -141,6 +178,26 @@ var BogSounds = (function () {
       cackle(toccata(t) - 0.6, 7, 620, 0.9);
     },
     // the witch shows up: CRASH and a long evil laugh
+    // the dance party: a funky drum machine, slap bass, and crunchy plant munching
+    groove: function () {
+      if (!ready()) return;
+      var t0 = ctx.currentTime + 0.05, beat = 60 / 118, s16 = beat / 4;
+      // an original bassline, one note per 16th (0 = rest)
+      var E = 82.41, G = 98, A = 110, B = 123.47, D = 146.83, E3 = 164.81;
+      var bass = [E, 0, E, 0, 0, E3, 0, D, 0, B, 0, 0, A, 0, G, A];
+      var stab = [329.63, 392, 493.88];
+      for (var bar = 0; bar < 6; bar++) {
+        for (var i = 0; i < 16; i++) {
+          var t = t0 + (bar * 16 + i) * s16;
+          if (i % 4 === 0) kick(t);
+          if (i === 4 || i === 12) snare(t);
+          hat(t, i % 2 ? 0.05 : 0.1);
+          if (bass[i]) pluck(bass[i], t, s16 * 0.9);
+          if (bar % 2 === 1 && (i === 6 || i === 14)) stab.forEach(function (f) { organ(f, t, 0.12, 0.05); });
+          if (i === 10) crunch(t);
+        }
+      }
+    },
     scare: function () {
       if (!ready()) return;
       var t = ctx.currentTime + 0.02;
