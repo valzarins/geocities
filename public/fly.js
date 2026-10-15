@@ -55,7 +55,7 @@
 
     eaten++;
     if (tally) tally.textContent = eaten;
-    if (eaten === 1 && window.BogWitch) setTimeout(BogWitch.show, 700);
+    if (eaten === 1 && window.BogWitch) setTimeout(function () { BogWitch.show(window.BogDancer && BogDancer.show); }, 700);
     else if (eaten % 3 === 0 && window.BogDancer) setTimeout(BogDancer.show, 700);
     else if (window.BogSounds) BogSounds.eat();
 

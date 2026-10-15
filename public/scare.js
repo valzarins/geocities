@@ -1,4 +1,4 @@
-/* The very first fly the flytraps eat, the Bog Witch comes for YOU. */
+/* The very first fly the flytraps eat, the Bog Witch comes for YOU... and she brings a friend. */
 var BogWitch = (function () {
   var box = document.createElement('div');
   box.id = 'scare';
@@ -8,16 +8,22 @@ var BogWitch = (function () {
     '<div class="out">(click anywhere to run away)</div>';
   document.body.appendChild(box);
 
-  var timer = null;
+  var timer = null, next = null;
   function hide() {
+    if (!box.className) return;
     box.className = '';
     document.documentElement.classList.remove('scared');
     clearTimeout(timer);
+    // whoever is waiting to come out after her goes now
+    var then = next;
+    next = null;
+    if (then) then();
   }
   box.addEventListener('click', hide);
 
   return {
-    show: function () {
+    show: function (after) {
+      next = after || null;
       document.documentElement.classList.add('scared');
       clearTimeout(timer);
       box.className = '';
