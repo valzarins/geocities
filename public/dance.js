@@ -1,4 +1,4 @@
-/* Every 4th fly, the King of Pop moonwalks through the bog and eats my plants! */
+/* The very first fly, the King of Pop moonwalks through the bog and eats my plants! */
 var BogDancer = (function () {
   var box = document.createElement('div');
   box.id = 'dance';

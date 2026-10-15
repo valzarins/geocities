@@ -1,4 +1,4 @@
-/* After the flytraps eat two flies, the Bog Witch comes for YOU. */
+/* Every third fly the flytraps eat, the Bog Witch comes for YOU. */
 var BogWitch = (function () {
   var box = document.createElement('div');
   box.id = 'scare';
@@ -19,6 +19,9 @@ var BogWitch = (function () {
   return {
     show: function () {
       document.documentElement.classList.add('scared');
+      clearTimeout(timer);
+      box.className = '';
+      void box.offsetWidth;   // restart the animations every time she comes back
       box.className = 'go';
       if (window.BogSounds) BogSounds.scare();
       timer = setTimeout(hide, 6000);
