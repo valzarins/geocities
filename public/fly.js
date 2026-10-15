@@ -55,8 +55,9 @@
 
     eaten++;
     if (tally) tally.textContent = eaten;
-    if (eaten === 1 && window.BogWitch) setTimeout(function () { BogWitch.show(window.BogDancer && BogDancer.show); }, 700);
-    else if (eaten % 3 === 0 && window.BogDancer) setTimeout(BogDancer.show, 700);
+    // a visitor on flies 1, 4, 7, 10...: Michael first, then the witch, taking turns
+    var visitor = (eaten - 1) % 3 === 0 ? (((eaten - 1) / 3) % 2 === 0 ? window.BogDancer : window.BogWitch) : null;
+    if (visitor) setTimeout(visitor.show, 700);
     else if (window.BogSounds) BogSounds.eat();
     if (window.BogGarden) BogGarden.fed();
 
