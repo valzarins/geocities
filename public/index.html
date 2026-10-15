@@ -51,7 +51,8 @@ html.flymode #dance, html.flymode #dance * { cursor: pointer !important; }
                box-shadow: 0 0 40px 10px rgba(255,255,255,.6); animation: spin 2s linear infinite; }
 #dance > * { transition: opacity .6s; }
 #dance .face, #dance .creepy { position: absolute; z-index: 3; opacity: 0; pointer-events: none; }
-#dance .face { width: 70vmin; height: 70vmin; left: 50%; top: 50%; margin: -35vmin 0 0 -35vmin; }
+#dance:not(.creep) .face { display: none; }
+#dance .face { animation: none; width: 70vmin; height: 70vmin; left: 50%; top: 50%; margin: -35vmin 0 0 -35vmin; }
 #dance .creepy { left: 0; right: 0; bottom: 4%; text-align: center; font: bold 26px "Comic Sans MS", "Arial Black", sans-serif;
                  color: #ff3a3a; text-shadow: 2px 2px 0 #000; }
 #dance.creep { background: radial-gradient(circle, #1a0a14 0%, #000 70%); transition: background 1s; }

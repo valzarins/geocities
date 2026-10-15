@@ -8,14 +8,25 @@ var BogDancer = (function () {
     '<img src="images/dancer.svg" alt="A cartoon Michael Jackson in a fedora and one sparkly glove, moonwalking and munching a flytrap">' +
     '<div class="boo">MICHAEL JACKSON IS IN MY BOG!!!<br><small>...and he is EATING MY PLANTS!!! &nbsp;Not the flytraps, Michael!!</small></div>' +
     '<div class="out">(click anywhere to stop the party)</div>' +
-    '<img class="face" alt="His face in the shadow of the fedora, glowing eyes, slowly chewing a flytrap, coming closer and closer">' +
+    '<img class="face" alt="" aria-hidden="true">' +
     '<div class="creepy">...he\'s coming closer...</div>';
   document.body.appendChild(box);
 
   // the timeline, in milliseconds: moonwalk, lights out and slow chewing, then the lunge
   var LIGHTS_OUT = 4000, LUNGE = 10500, END = 12500;
   var face = box.querySelector('.face'), creepy = box.querySelector('.creepy');
-  var timers = [];
+  var timers = [], faceUrl = null, faceSvg = null;
+
+  // keep a copy of the close-up picture ready, so it never has to load mid-scare
+  if (window.fetch) fetch('images/closeup.svg').then(function (r) { return r.text(); })
+    .then(function (t) { faceSvg = t; }, function () {});
+  function freshFace() {
+    if (faceUrl) URL.revokeObjectURL(faceUrl);
+    faceUrl = null;
+    if (!faceSvg) return 'images/closeup.svg?' + Date.now();
+    faceUrl = URL.createObjectURL(new Blob([faceSvg], { type: 'image/svg+xml' }));
+    return faceUrl;
+  }
   function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
   function hide() {
     box.className = '';
@@ -36,7 +47,7 @@ var BogDancer = (function () {
       if (window.BogSounds) BogSounds.groove();
       later(function () {
         // a fresh copy of the picture, so its slow bites start right now
-        face.src = 'images/closeup.svg?' + Date.now();
+        face.src = freshFace();
         box.classList.add('creep');
       }, LIGHTS_OUT);
       later(function () {
