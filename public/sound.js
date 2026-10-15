@@ -213,15 +213,15 @@ var BogSounds = (function () {
     },
     // the witch shows up: CRASH and a long evil laugh
     // the dance party: a funky drum machine, slap bass, and crunchy plant munching
-    // the dance party: two bars of funk, then the lights go out and it gets SLOW and creepy
+    // the dance party: one quick bar of funk, then the lights go out and it gets creepy
     groove: function () {
       if (!ready()) return;
-      var t0 = ctx.currentTime + 0.05, s16 = 0.125;   // 120 beats a minute, so 2 bars = 4 seconds
+      var t0 = ctx.currentTime + 0.05, s16 = 0.125;   // 120 beats a minute, so 1 bar = 2 seconds
       // an original bassline, one note per 16th (0 = rest)
       var E = 82.41, G = 98, A = 110, B = 123.47, D = 146.83, E3 = 164.81;
       var bass = [E, 0, E, 0, 0, E3, 0, D, 0, B, 0, 0, A, 0, G, A];
       var stab = [329.63, 392, 493.88];
-      for (var bar = 0; bar < 2; bar++) {
+      for (var bar = 0; bar < 1; bar++) {
         for (var i = 0; i < 16; i++) {
           var t = t0 + (bar * 16 + i) * s16;
           if (i % 4 === 0) kick(t);
@@ -232,14 +232,14 @@ var BogSounds = (function () {
           if (i === 10) crunch(t);
         }
       }
-      // lights out: the record winds down, then a low drone, and five slow, heavy bites
-      var dark = t0 + 4;
+      // lights out: the record winds down, then a low drone, and five heavy bites
+      var dark = t0 + 2;
       winddown(dark - 0.5);
-      drone(dark, 6.6);
-      for (var k = 0; k < 5; k++) bigBite(dark + 0.6 + k * 1.3);
+      drone(dark, 3.6);
+      for (var k = 0; k < 5; k++) bigBite(dark + 0.3 + k * 0.7);
       // the lunge
-      stinger(dark + 6.5);
-      bigBite(dark + 6.5);
+      stinger(dark + 3.5);
+      bigBite(dark + 3.5);
     },
     scare: function () {
       if (!ready()) return;

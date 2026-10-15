@@ -1,4 +1,5 @@
-/* The flytraps are spreading! More and more sprout all over the page until the bog takes over. */
+/* The flytraps are spreading! More and more sprout all over the page until the bog takes over.
+   They grow in the empty spaces only, never on top of the writing, so you can still read it. */
 var BogGarden = (function () {
   var MAX = 400;              // even a bog has to stop somewhere
   var TAKEOVER_COVER = 1.1;   // how many traps per screenful of space before the bog wins
@@ -21,11 +22,63 @@ var BogGarden = (function () {
 
   function pageHeight() { return document.documentElement.scrollHeight; }
 
+  // where the writing (and the buttons and pictures) are, in page coordinates
+  var writing = null;
+  var KEEP_OUT = '#wilds, #overgrown, #scare, #dance, #fly, .chomp, script, style';
+  function findWriting() {
+    if (writing) return writing;
+    writing = [];
+    var sx = window.scrollX, sy = window.scrollY, pad = 8;
+    function add(r) {
+      if (r.width && r.height) writing.push({ l: r.left + sx - pad, t: r.top + sy - pad, r: r.right + sx + pad, b: r.bottom + sy + pad });
+    }
+    var walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        return /\S/.test(n.data) && !n.parentElement.closest(KEEP_OUT) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var range = document.createRange();
+    while (walk.nextNode()) {
+      range.selectNodeContents(walk.currentNode);
+      [].forEach.call(range.getClientRects(), add);
+    }
+    [].forEach.call(document.querySelectorAll('body img'), function (img) {
+      if (!img.closest(KEEP_OUT)) add(img.getBoundingClientRect());
+    });
+    return writing;
+  }
+  window.addEventListener('resize', function () { writing = null; });
+
+  // would a trap in this box cover any writing?
+  function onWriting(l, t, r, b) {
+    var list = findWriting();
+    for (var i = 0; i < list.length; i++) {
+      var w = list[i];
+      if (l < w.r && r > w.l && t < w.b && b > w.t) return true;
+    }
+    return false;
+  }
+  // the part of the trap picture that actually has plant in it, tipped over by its tilt
+  // plus the 4 degrees it sways each way (it leans from the bottom middle)
+  function plantBox(left, top, w, h, tilt) {
+    var ox = left + w / 2, oy = top + h;
+    var pts = [[w * -0.42, -h * 0.9], [w * 0.42, -h * 0.9], [w * -0.42, 0], [w * 0.42, 0]];
+    var l = Infinity, t = Infinity, r = -Infinity, b = -Infinity;
+    [(tilt || 0) - 4, (tilt || 0) + 4].forEach(function (deg) {
+      var a = deg * Math.PI / 180, c = Math.cos(a), sn = Math.sin(a);
+      pts.forEach(function (p) {
+        var x = ox + p[0] * c - p[1] * sn, y = oy + p[0] * sn + p[1] * c;
+        l = Math.min(l, x); r = Math.max(r, x); t = Math.min(t, y); b = Math.max(b, y);
+      });
+    });
+    return [l, t, r, b];
+  }
+
   function sprout(nearYou) {
     if (count >= MAX) return;
     var w = 55 + Math.random() * 70, h = w * 1.2;
     var pageW = document.documentElement.clientWidth, vh = window.innerHeight;
-    var left, top, tries = 0;
+    var left, top, tries = 0, tilt = Math.random() * 30 - 15;
     do {
       left = Math.random() * (pageW - w);
       top = nearYou ? window.scrollY + Math.random() * (vh - h * 0.6) - h * 0.2
@@ -34,8 +87,9 @@ var BogGarden = (function () {
       // never sprout right on top of the fly, that would be cheating
       var cx = left + w / 2 - window.scrollX, cy = top + h * 0.37 - window.scrollY;
       var close = Math.abs(cx - cursor.x) < 90 && Math.abs(cy - cursor.y) < 90;
-    } while (close && ++tries < 8);
-    if (close) return;
+      var bad = close || onWriting.apply(null, plantBox(left, top, w, h, tilt));
+    } while (bad && ++tries < 15);
+    if (bad) return;
 
     var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     s.setAttribute('viewBox', '0 0 100 120');
@@ -45,7 +99,7 @@ var BogGarden = (function () {
     s.style.top = top + 'px';
     s.style.width = w + 'px';
     s.style.height = h + 'px';
-    s.style.rotate = (Math.random() * 30 - 15) + 'deg';
+    s.style.rotate = tilt + 'deg';
     s.style.animationDelay = '0s, ' + (-Math.random() * 3) + 's';
     s.style.animationDuration = '.6s, ' + (2 + Math.random() * 1.5) + 's';
     s.innerHTML = SVG;
@@ -62,7 +116,14 @@ var BogGarden = (function () {
       var t = parseFloat(s.style.top);
       if (t > screenTop - 60 && t < screenBottom) here++;
     });
-    var room = (document.documentElement.clientWidth * window.innerHeight) / (95 * 95);
+    // count the spots on screen where a trap could still grow without covering writing
+    var spots = 0, step = 30, pageW = document.documentElement.clientWidth;
+    for (var y = screenTop; y < screenBottom; y += step) {
+      for (var x = 0; x < pageW; x += step) {
+        if (!onWriting.apply(null, plantBox(x - 30, y - 40, 60, 72))) spots++;
+      }
+    }
+    var room = Math.max(4, spots * step * step / (95 * 95));
     if (here >= room * TAKEOVER_COVER || count >= MAX) {
       overgrown = true;
       document.documentElement.classList.add('overgrown');

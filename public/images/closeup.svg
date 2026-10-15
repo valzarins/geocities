@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
-  <!-- timing: this picture runs 6.5 seconds; five slow bites land at 0.6, 1.9, 3.2, 4.5 and 5.8 s -->
+  <!-- timing: this picture runs 3.5 seconds; five bites land at 0.3, 1.0, 1.7, 2.4 and 3.1 s -->
   <style>
-    .jaw    { animation: chew 1.3s ease-in-out infinite; animation-delay: -0.05s; }
-    .flower { animation: eaten 6.5s linear forwards; transform-box: view-box; transform-origin: 300px 440px; }
+    .jaw    { animation: chew 0.7s ease-in-out infinite; animation-delay: -0.03s; }
+    .flower { animation: eaten 3.5s linear forwards; transform-box: view-box; transform-origin: 300px 440px; }
     .lids   { animation: blink 3.1s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
-    .glow   { animation: burn 1.3s ease-in-out infinite alternate; }
-    .drip   { animation: drip 2.6s ease-in infinite; }
-    .drip2  { animation: drip 2.6s 1.3s ease-in infinite; }
+    .glow   { animation: burn 0.7s ease-in-out infinite alternate; }
+    .drip   { animation: drip 1.4s ease-in infinite; }
+    .drip2  { animation: drip 1.4s 0.7s ease-in infinite; }
     .curlL  { animation: hang 2.2s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 0%; }
     .curlR  { animation: hang 2.4s ease-in-out infinite alternate-reverse; transform-box: fill-box; transform-origin: 50% 0%; }
     @keyframes chew  { 0%, 35% { transform: translateY(34px); } 50% { transform: translateY(0); } 62% { transform: translateY(4px); } 100% { transform: translateY(34px); } }

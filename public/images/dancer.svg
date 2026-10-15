@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="300" height="460" viewBox="0 0 300 460">
   <style>
-    .all   { animation: lean 0.5s ease-in-out infinite alternate; transform-box: view-box; transform-origin: 150px 440px; }
-    .hat   { animation: tip 1s ease-in-out infinite alternate; transform-box: view-box; transform-origin: 150px 82px; }
-    .reach { animation: point 0.5s ease-in-out infinite alternate; transform-box: view-box; transform-origin: 122px 142px; }
-    .eat   { animation: munch 0.3s ease-in-out infinite alternate; transform-box: view-box; transform-origin: 196px 192px; }
-    .legA  { animation: slideA 0.8s linear infinite; }
-    .legB  { animation: slideA 0.8s linear infinite; animation-delay: -0.4s; }
-    .heelA { animation: heel 0.8s linear infinite; transform-box: fill-box; transform-origin: 100% 100%; }
-    .heelB { animation: heel 0.8s linear infinite; animation-delay: -0.4s; transform-box: fill-box; transform-origin: 100% 100%; }
-    .spark { animation: twinkle 0.4s steps(2) infinite alternate; }
-    .spark2 { animation: twinkle 0.4s steps(2) infinite alternate-reverse; }
-    .bits circle { animation: crumbs 0.6s ease-out infinite; }
-    .bits circle:nth-child(2) { animation-delay: -0.2s; }
-    .bits circle:nth-child(3) { animation-delay: -0.4s; }
-    .bits circle:nth-child(4) { animation-delay: -0.1s; }
+    .all   { animation: lean 0.31s ease-in-out infinite alternate; transform-box: view-box; transform-origin: 150px 440px; }
+    .hat   { animation: tip 0.62s ease-in-out infinite alternate; transform-box: view-box; transform-origin: 150px 82px; }
+    .reach { animation: point 0.31s ease-in-out infinite alternate; transform-box: view-box; transform-origin: 122px 142px; }
+    .eat   { animation: munch 0.19s ease-in-out infinite alternate; transform-box: view-box; transform-origin: 196px 192px; }
+    .legA  { animation: slideA 0.50s linear infinite; }
+    .legB  { animation: slideA 0.50s linear infinite; animation-delay: -0.25s; }
+    .heelA { animation: heel 0.50s linear infinite; transform-box: fill-box; transform-origin: 100% 100%; }
+    .heelB { animation: heel 0.50s linear infinite; animation-delay: -0.25s; transform-box: fill-box; transform-origin: 100% 100%; }
+    .spark { animation: twinkle 0.25s steps(2) infinite alternate; }
+    .spark2 { animation: twinkle 0.25s steps(2) infinite alternate-reverse; }
+    .bits circle { animation: crumbs 0.37s ease-out infinite; }
+    .bits circle:nth-child(2) { animation-delay: -0.12s; }
+    .bits circle:nth-child(3) { animation-delay: -0.25s; }
+    .bits circle:nth-child(4) { animation-delay: -0.06s; }
     @keyframes lean   { from { transform: rotate(-3deg); } to { transform: rotate(4deg) translateY(-4px); } }
     @keyframes tip    { from { transform: rotate(-12deg); } to { transform: rotate(-4deg); } }
     @keyframes point  { from { transform: rotate(0deg); } to { transform: rotate(-18deg); } }

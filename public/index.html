@@ -22,6 +22,8 @@ html.flymode, html.flymode * { cursor: none !important; }
 @keyframes sprout { from { scale: 0; } }
 @keyframes sway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
 html.overgrown body { background: #0f2a08 repeating-linear-gradient(60deg, transparent 0 22px, rgba(111,155,44,.25) 22px 26px, transparent 26px 48px); }
+html.overgrown body { text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 8px #fff; }
+html.overgrown #scare, html.overgrown #dance, html.overgrown #overgrown { text-shadow: none; }
 #overgrown { display: none; position: fixed; left: 0; right: 0; top: 0; z-index: 9000; text-align: center;
              background: #000000; border-bottom: 4px ridge #7cff3a; padding: 8px;
              font: bold 18px "Times New Roman", serif; color: #7cff3a; }
@@ -50,7 +52,7 @@ html.scared #fly { display: none; }
 html.flymode #dance, html.flymode #dance * { cursor: pointer !important; }
 #dance.go { display: flex; animation: flash .5s ease-out; }
 #dance img { height: 66vh; max-width: 80vw; position: relative; z-index: 2;
-             animation: popin .4s cubic-bezier(.2,1.6,.5,1) both, moonwalk 7s .4s linear both; }
+             animation: popin .4s cubic-bezier(.2,1.6,.5,1) both, moonwalk 1.6s .4s linear both; }
 #dance .boo { position: relative; z-index: 2; font: bold 38px "Comic Sans MS", "Arial Black", sans-serif; color: #ffff00;
               text-align: center; text-shadow: 3px 3px 0 #000, 0 0 16px #ff3cac; animation: popin .5s .3s cubic-bezier(.2,1.6,.5,1) both, wiggle .25s .8s infinite alternate; }
 #dance .boo small { font-size: 20px; color: #ffffff; }
@@ -70,8 +72,8 @@ html.flymode #dance, html.flymode #dance * { cursor: pointer !important; }
                  color: #ff3a3a; text-shadow: 2px 2px 0 #000; }
 #dance.creep { background: radial-gradient(circle, #1a0a14 0%, #000 70%); transition: background 1s; }
 #dance.creep img:not(.face), #dance.creep .boo, #dance.creep .out, #dance.creep .floor, #dance.creep .ball { opacity: 0; }
-#dance.creep .face { opacity: 1; animation: approach 6.5s cubic-bezier(.5,0,.9,.6) both, lurch 1.3s ease-in-out infinite; }
-#dance.creep .creepy { opacity: 1; animation: flicker 1.3s steps(2) infinite; }
+#dance.creep .face { opacity: 1; animation: approach 3.5s cubic-bezier(.5,0,.9,.6) both, lurch .7s ease-in-out infinite; }
+#dance.creep .creepy { opacity: 1; animation: flicker .7s steps(2) infinite; }
 #dance.lunge .face { animation: lunge-in .35s cubic-bezier(.2,1.4,.5,1) both, shake .06s .35s infinite alternate; }
 #dance.lunge .creepy { font-size: 46px; animation: none; }
 #dance.lunge { animation: redflash .4s ease-out; }

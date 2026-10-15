@@ -13,7 +13,7 @@ var BogDancer = (function () {
   document.body.appendChild(box);
 
   // the timeline, in milliseconds: moonwalk, lights out and slow chewing, then the lunge
-  var LIGHTS_OUT = 4000, LUNGE = 10500, END = 12500;
+  var LIGHTS_OUT = 2000, LUNGE = 5500, END = 7000;
   var face = box.querySelector('.face'), creepy = box.querySelector('.creepy');
   var timers = [], faceUrl = null, faceSvg = null;
 
