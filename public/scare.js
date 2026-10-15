@@ -1,4 +1,4 @@
-/* Every third fly the flytraps eat, the Bog Witch comes for YOU. */
+/* The very first fly the flytraps eat, the Bog Witch comes for YOU. */
 var BogWitch = (function () {
   var box = document.createElement('div');
   box.id = 'scare';

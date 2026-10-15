@@ -55,8 +55,8 @@
 
     eaten++;
     if (tally) tally.textContent = eaten;
-    if (eaten === 1 && window.BogDancer) setTimeout(BogDancer.show, 700);
-    else if (eaten % 3 === 0 && window.BogWitch) setTimeout(BogWitch.show, 700);
+    if (eaten === 1 && window.BogWitch) setTimeout(BogWitch.show, 700);
+    else if (eaten % 3 === 0 && window.BogDancer) setTimeout(BogDancer.show, 700);
     else if (window.BogSounds) BogSounds.eat();
 
     // a fresh fly hatches where the mouse is
