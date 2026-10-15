@@ -8,14 +8,27 @@ html.flymode, html.flymode * { cursor: none !important; }
 #fly.caught { transition: transform .15s ease-in, opacity .2s .1s; opacity: 0 !important; }
 #fly.hatch { animation: hatch .4s ease-out; }
 @keyframes hatch { from { width: 4px; height: 4px; margin: -2px 0 0 -2px; } }
-#logo .jaw { transition: transform 1.2s ease-out; }
-#logo .trap.shut .jaw { transition: transform .12s cubic-bezier(.6,0,1,.6); }
-#logo .trap.shut { animation: chew .25s .3s 6 alternate ease-in-out; transform-box: fill-box; transform-origin: 50% 100%; }
+.jaw { transition: transform 1.2s ease-out; }
+.trap.shut .jaw { transition: transform .12s cubic-bezier(.6,0,1,.6); }
+.trap.shut { animation: chew .25s .3s 6 alternate ease-in-out; transform-box: fill-box; transform-origin: 50% 100%; }
 @keyframes chew { to { transform: rotate(4deg); } }
 .chomp { position: absolute; pointer-events: none; z-index: 9998; transform: translate(-50%, -100%);
          font: bold 22px "Comic Sans MS", "Arial Black", sans-serif; color: #ff0000;
          text-shadow: 2px 2px 0 #ffff00; animation: chomp 1.2s ease-out forwards; }
 @keyframes chomp { from { opacity: 1; margin-top: 0; } to { opacity: 0; margin-top: -50px; } }
+#wilds { position: absolute; left: 0; top: 0; width: 100%; height: 0; z-index: 50; pointer-events: none; }
+#wilds .wild { position: absolute; overflow: visible; transform-origin: 50% 100%;
+               animation: sprout .6s cubic-bezier(.2,1.6,.5,1) both, sway 2.5s ease-in-out infinite alternate; }
+@keyframes sprout { from { scale: 0; } }
+@keyframes sway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+html.overgrown body { background: #0f2a08 repeating-linear-gradient(60deg, transparent 0 22px, rgba(111,155,44,.25) 22px 26px, transparent 26px 48px); }
+#overgrown { display: none; position: fixed; left: 0; right: 0; top: 0; z-index: 9000; text-align: center;
+             background: #000000; border-bottom: 4px ridge #7cff3a; padding: 8px;
+             font: bold 18px "Times New Roman", serif; color: #7cff3a; }
+#overgrown .blink { font-size: 28px; color: #ff0000; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { visibility: hidden; } }
+#weed { color: #ffff00; font-size: 20px; }
+@media (prefers-reduced-motion: reduce) { #wilds .wild { animation: none; } #overgrown .blink { animation: none; } }
 #sound { color: #ffff00; background: #000000; padding: 2px 6px; text-decoration: none; }
 #scare { display: none; position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 10000;
          background: radial-gradient(circle, #3a1450 0%, #0d0414 55%, #000 100%);
@@ -210,6 +223,7 @@ A sanctuary is supposed to be safe for everybody... except the flies. Sorry, fli
 <script src="sound.js"></script>
 <script src="scare.js"></script>
 <script src="dance.js"></script>
+<script src="garden.js"></script>
 <script src="fly.js"></script>
 </body>
 </html>

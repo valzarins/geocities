@@ -1,9 +1,8 @@
-/* The mouse is a fly. The flytraps in the logo are hungry. */
+/* The mouse is a fly. The flytraps (in the logo, and everywhere else they sprout) are hungry. */
 (function () {
   if (!window.matchMedia || !matchMedia('(pointer: fine)').matches) return;
 
-  var logo = document.getElementById('logo');
-  var traps = [].slice.call(logo.querySelectorAll('.trap'));
+  var traps = document.getElementsByClassName('trap');   // a live list: new sprouts join in by themselves
   var tally = document.getElementById('eaten');
   var fly = document.createElement('img');
   fly.id = 'fly';
@@ -12,7 +11,7 @@
   document.body.appendChild(fly);
   document.documentElement.className += ' flymode';
 
-  var REACH = 34;          // how close (in logo units) the fly can get before SNAP
+  var REACH = 34;          // how close (in the trap's own drawing units) the fly can get before SNAP
   var x = -100, y = -100, heading = 0, eaten = 0, gone = false;
 
   function place() {
@@ -20,12 +19,13 @@
   }
 
   function mouth(trap) {
-    var p = logo.createSVGPoint();
+    var svg = trap.ownerSVGElement;
+    var p = svg.createSVGPoint();
     p.x = +trap.getAttribute('data-mx');
     p.y = +trap.getAttribute('data-my');
-    var m = logo.getScreenCTM();
+    var m = svg.getScreenCTM();
     p = p.matrixTransform(m);
-    return { x: p.x, y: p.y, scale: m.a };
+    return { x: p.x, y: p.y, scale: Math.hypot(m.a, m.b), reach: +trap.getAttribute('data-reach') || REACH };
   }
 
   function setJaws(trap, shut) {
@@ -58,6 +58,7 @@
     if (eaten === 1 && window.BogWitch) setTimeout(function () { BogWitch.show(window.BogDancer && BogDancer.show); }, 700);
     else if (eaten % 3 === 0 && window.BogDancer) setTimeout(BogDancer.show, 700);
     else if (window.BogSounds) BogSounds.eat();
+    if (window.BogGarden) BogGarden.fed();
 
     // a fresh fly hatches where the mouse is
     setTimeout(function () {
@@ -97,11 +98,13 @@
       if (traps[i].classList.contains('busy')) continue;
       var m = mouth(traps[i]);
       var ddx = (x - m.x) / m.scale, ddy = (y - m.y) / m.scale;
-      if (ddx * ddx + ddy * ddy < REACH * REACH) { chomp(traps[i], m); break; }
+      if (ddx * ddx + ddy * ddy < m.reach * m.reach) { chomp(traps[i], m); break; }
     }
   });
 
   document.addEventListener('mouseout', function (e) {
     if (!e.relatedTarget) fly.style.opacity = 0;
   });
+
+  if (window.BogGarden) BogGarden.start();
 })();
