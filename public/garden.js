@@ -72,9 +72,9 @@ var BogGarden = (function () {
   }
 
   function grow() {
-    // they spread faster and faster: one more trap every 2 seconds for each 15 seconds you've been here
+    // they spread slowly at first, then faster: one more trap every 6 seconds for each minute you've been here
     var secs = (Date.now() - started) / 1000;
-    var n = 1 + Math.floor(secs / 15) + (overgrown ? 3 : 0);
+    var n = 1 + Math.floor(secs / 60) + (overgrown ? 2 : 0);
     for (var i = 0; i < n; i++) sprout(Math.random() < 0.7);
   }
 
@@ -85,7 +85,7 @@ var BogGarden = (function () {
     document.documentElement.classList.remove('overgrown');
     banner.style.display = 'none';
     started = Date.now();
-    for (var i = 0; i < 5; i++) sprout(false);
+    for (var i = 0; i < 3; i++) sprout(false);
   }
 
   return {
@@ -103,13 +103,13 @@ var BogGarden = (function () {
       document.addEventListener('mousemove', function (e) { cursor = { x: e.clientX, y: e.clientY }; });
 
       started = Date.now();
-      for (var i = 0; i < 5; i++) sprout(false);
-      for (var j = 0; j < 3; j++) sprout(true);
-      tick = setInterval(grow, 2000);
+      for (var i = 0; i < 3; i++) sprout(false);
+      sprout(true);
+      tick = setInterval(grow, 6000);
     },
-    // every fly they eat makes them multiply
+    // every fly they eat makes another one sprout
     fed: function () {
-      for (var i = 0; i < 3; i++) sprout(true);
+      sprout(true);
     }
   };
 })();
